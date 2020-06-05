@@ -82,14 +82,14 @@
         "properties": {
           "serverFarmId": "[parameters('hostingPlanName')]",
           "siteConfig": {
-                "webSocketsEnabled": true
-          },
-          "appSettings": [
-              {
-                "name": "PROJECT",
-                "value": "[parameters('project')]"
-              }
-          ]
+                "webSocketsEnabled": true,
+                "appSettings": [
+                    {
+                      "name": "PROJECT",
+                      "value": "[parameters('project')]"
+                    }
+                ]
+          }
         },
         "resources": [
           {
