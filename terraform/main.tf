@@ -17,3 +17,11 @@ module "webapi1" {
   resource_group_name  = module.resourcegroup.name
   resource_group_id    = module.resourcegroup.id
 }
+
+module "webapi2" {
+  source               = "./modules/webapi2"
+  create_resource      = true
+  webapi2_appname      = "as-mgreen-multideploy-webapi2-dev"
+  resource_group_name  = module.resourcegroup.name
+  resource_group_id    = module.resourcegroup.id
+}
