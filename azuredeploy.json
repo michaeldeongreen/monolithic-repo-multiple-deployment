@@ -83,7 +83,13 @@
           "serverFarmId": "[parameters('hostingPlanName')]",
           "siteConfig": {
                 "webSocketsEnabled": true
-          }
+          },
+          "appSettings": [
+              {
+                "name": "PROJECT",
+                "value": "[parameters('project')]"
+              }
+          ]
         },
         "resources": [
           {
@@ -100,17 +106,6 @@
             }
           }
         ]
-      },
-      {
-        "name": "[concat(parameters('siteName'), '/config')]",
-        "type": "Microsoft.Web/sites/config",
-        "apiVersion": "2018-11-01",
-        "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites', parameters('siteName'))]"
-        ],
-        "properties": {
-            "PROJECT": "[parameters('project')]"
-        }
       }
     ]
   }
