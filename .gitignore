@@ -1,2 +1,5 @@
+.terraform
 bin
 obj
+.terraform.tfstate.lock.info
+*.tfstate
