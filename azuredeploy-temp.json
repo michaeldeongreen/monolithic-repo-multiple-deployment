@@ -58,20 +58,20 @@
         ],
         "defaultValue": "false",
         "metadata": {
-          "description": "Determines if Az AD authentication will be enabled."
+          "description": "Determines if Azure AD authentication will be enabled."
         }
       },
       "keyvaultName": {
         "type": "string",
         "defaultValue": "none",
         "metadata": {
-          "description": "The name of the Az Keyvault to store secrets if enabling authentication."
+          "description": "The name of the Azure Keyvault to store secrets if enabling authentication."
         }
       }
     },
     "variables": {
       "projectFile": "src/Blazor.EventGridViewer.ServerApp/Blazor.EventGridViewer.ServerApp.csproj",
-      "tenantId": "[if(equals(parameters('keyvaultName'), 'none'), json('null'), [subscription().tenantId])]"
+      "tenantId": "[if(equals(parameters('keyvaultName'), 'none'), json('null'), [subscription().tenantId])]]"
     },
     "resources": [
       {
