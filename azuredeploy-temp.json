@@ -49,11 +49,30 @@
         "metadata": {
           "description": "Location for all resources."
         }
+      },
+      "enableAuth": {
+        "type": "string",
+        "allowedValues": [
+          "false",
+          "true"
+        ],
+        "defaultValue": "false",
+        "metadata": {
+          "description": "Determines if Az AD authentication will be enabled."
+        }
+      },
+      "keyvaultName": {
+        "type": "string",
+        "defaultValue": "none",
+        "metadata": {
+          "description": "The name of the Az Keyvault to store secrets if enabling authentication."
+        }
       }
     },
     "variables": {
-      "projectFile": "src/Blazor.EventGridViewer.ServerApp/Blazor.EventGridViewer.ServerApp.csproj"
-    },    
+      "projectFile": "src/Blazor.EventGridViewer.ServerApp/Blazor.EventGridViewer.ServerApp.csproj",
+      "tenantId": "[if(equals(parameters('keyvaultName'), 'none'), json('null'), [subscription().tenantId])]"
+    },
     "resources": [
       {
         "apiVersion": "2015-08-01",
@@ -87,8 +106,12 @@
                     },
                     {
                       "name": "EnableAuth",
-                      "value": "false"
-                    }                    
+                      "value": "[parameters('enableAuth')]"
+                    },
+                    {
+                      "name": "AzureAd:TenantId",
+                      "value": "[variables('tenantId')]"
+                    }
                 ]
           }
         },
