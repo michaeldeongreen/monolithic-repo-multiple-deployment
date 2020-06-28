@@ -49,10 +49,47 @@
       "metadata": {
         "description": "Location for all resources."
       }
+    },
+    "enableAuth": {
+      "type": "string",
+      "allowedValues": [
+        "false",
+        "true"
+      ],
+      "defaultValue": "false",
+      "metadata": {
+        "description": "Determines if Azure AD authentication will be enabled."
+      }
+    },
+    "keyvaultName": {
+      "type": "string",
+      "defaultValue": "none",
+      "metadata": {
+        "description": "The name of the Azure Keyvault to store secrets if enabling authentication."
+      }
+    },
+    "azAdDomainSecretName": {
+      "type": "string",
+      "defaultValue": "sct-egvb-azad-domain",
+      "metadata": {
+        "description": "The name of the Azure Keyvault Secret to store the Azure AD Domain if enabling authentication."
+      }
+    },
+    "azAdClientIdSecretName": {
+      "type": "string",
+      "defaultValue": "sct-egvb-azad-client-id",
+      "metadata": {
+        "description": "The name of the Azure Keyvault Secret to store the Azure App Registration ClientId if enabling authentication."
+      }
     }
   },
   "variables": {
-    "projectFile": "src/Blazor.EventGridViewer.ServerApp/Blazor.EventGridViewer.ServerApp.csproj"
+    "projectFile": "src/Blazor.EventGridViewer.ServerApp/Blazor.EventGridViewer.ServerApp.csproj",
+    "azAdTenantId": "[subscription().tenantId]",
+    "azAdInstance": "https://login.microsoftonline.com/",
+    "azAdCallbackPath": "/signin-oidc",
+    "azAdDomain": "[concat('@Microsoft.KeyVault(SecretUri=https://', parameters('keyvaultName'), '.vault.azure.net/secrets/', parameters('azAdDomainSecretName'), '/)')]",
+    "azAdClientId": "[concat('@Microsoft.KeyVault(SecretUri=https://', parameters('keyvaultName'), '.vault.azure.net/secrets/', parameters('azAdClientIdSecretName'), '/)')]"
   },
   "resources": [
     {
@@ -87,7 +124,27 @@
                   },
                   {
                     "name": "EnableAuth",
-                    "value": "false"
+                    "value": "[parameters('enableAuth')]"
+                  },
+                  {
+                    "name": "AzureAd:TenantId",
+                    "value": "[if(equals(parameters('enableAuth'), 'false'), '', variables('azAdTenantId'))]"
+                  },
+                  {
+                    "name": "AzureAd:Instance",
+                    "value": "[if(equals(parameters('enableAuth'), 'false'), '', variables('azAdInstance'))]"
+                  },
+                  {
+                    "name": "AzureAd:CallbackPath",
+                    "value": "[if(equals(parameters('enableAuth'), 'false'), '', variables('azAdCallbackPath'))]"
+                  },
+                  {
+                    "name": "AzureAd:Domain",
+                    "value": "[if(equals(parameters('enableAuth'), 'false'), '', variables('azAdDomain'))]"
+                  },
+                  {
+                    "name": "AzureAd:ClientId",
+                    "value": "[if(equals(parameters('enableAuth'), 'false'), '', variables('azAdClientId'))]"
                   }
               ]
         }
