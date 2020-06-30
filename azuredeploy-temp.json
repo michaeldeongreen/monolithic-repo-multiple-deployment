@@ -68,11 +68,10 @@
         "description": "The name of the Azure Keyvault to store secrets if enabling authentication."
       }
     },
-    "azAdDomainSecretName": {
+    "azureDirectory": {
       "type": "string",
-      "defaultValue": "sct-egvb-azad-domain",
       "metadata": {
-        "description": "The name of the Azure Keyvault Secret to store the Azure AD Domain if enabling authentication."
+        "description": "The Azure AD Primary directory if enabling authentication ie youraccount.onmicrosoft.com."
       }
     },
     "azAdClientIdSecretName": {
@@ -88,7 +87,6 @@
     "azAdTenantId": "[subscription().tenantId]",
     "azAdInstance": "https://login.microsoftonline.com/",
     "azAdCallbackPath": "/signin-oidc",
-    "azAdDomain": "[concat('@Microsoft.KeyVault(SecretUri=https://', parameters('keyvaultName'), '.vault.azure.net/secrets/', parameters('azAdDomainSecretName'), '/)')]",
     "azAdClientId": "[concat('@Microsoft.KeyVault(SecretUri=https://', parameters('keyvaultName'), '.vault.azure.net/secrets/', parameters('azAdClientIdSecretName'), '/)')]"
   },
   "resources": [
@@ -140,7 +138,7 @@
                   },
                   {
                     "name": "AzureAd:Domain",
-                    "value": "[if(equals(parameters('enableAuth'), 'false'), '', variables('azAdDomain'))]"
+                    "value": "[if(equals(parameters('enableAuth'), 'false'), '', parameters('azureDirectory'))]"
                   },
                   {
                     "name": "AzureAd:ClientId",
