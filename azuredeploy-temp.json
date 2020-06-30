@@ -70,6 +70,7 @@
     },
     "azureDirectory": {
       "type": "string",
+      "defaultValue": "none",
       "metadata": {
         "description": "The Azure AD Primary directory if enabling authentication ie youraccount.onmicrosoft.com."
       }
