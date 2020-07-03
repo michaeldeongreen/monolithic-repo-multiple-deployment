@@ -74,13 +74,6 @@
       "metadata": {
         "description": "The Azure AD Primary domain if enabling authentication ie youraccount.onmicrosoft.com."
       }
-    },
-    "azAdClientIdSecretName": {
-      "type": "string",
-      "defaultValue": "sct-egvb-azad-client-id",
-      "metadata": {
-        "description": "The name of the Azure Keyvault Secret to store the Azure App Registration ClientId if enabling authentication."
-      }
     }
   },
   "variables": {
@@ -88,7 +81,8 @@
     "azAdTenantId": "[subscription().tenantId]",
     "azAdInstance": "https://login.microsoftonline.com/",
     "azAdCallbackPath": "/signin-oidc",
-    "azAdClientId": "[concat('@Microsoft.KeyVault(SecretUri=https://', parameters('keyvaultName'), '.vault.azure.net/secrets/', parameters('azAdClientIdSecretName'), '/)')]"
+    "azAdClientIdSecretName": "sct-egvb-azad-client-id",
+    "azAdClientId": "[concat('@Microsoft.KeyVault(SecretUri=https://', parameters('keyvaultName'), '.vault.azure.net/secrets/', variables('azAdClientIdSecretName'), '/)')]"
   },
   "resources": [
     {
@@ -166,3 +160,4 @@
     }
   ]
 }
+
